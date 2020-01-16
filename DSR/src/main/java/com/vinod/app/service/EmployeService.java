@@ -1,11 +1,22 @@
 package com.vinod.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.vinod.app.model.Employee;
 
 public interface EmployeService {
 
-	public List<Employee> getAllEmployes(long employeeId);
+	List<Employee> getAllEmployes();
+
+	Employee saveEmployee(Employee empl);
+
+	void deleteEmployee(long id);
+	
+	Optional<Employee> getEmployById(long id);
+
+	Employee getAllEmployeById(long id);
+
+	//Employee updateEMployee(Employee empl);
 	
 }

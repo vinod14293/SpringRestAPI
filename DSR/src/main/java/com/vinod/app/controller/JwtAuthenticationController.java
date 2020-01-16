@@ -25,7 +25,7 @@ import com.vinod.app.util.JWTUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class JwtAuthenticationController {
 
 	@Autowired
@@ -39,11 +39,14 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value="/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 		final UserDetails userDetails = (UserDetails) userService
-				.loadUserByUsername(authenticationRequest.getUsername());
+				.loadUserByUsername(authenticationRequest.getEmail());
 		final String token = jwtUtil.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(token));
+		final String userName = userDetails.getUsername();
+		
+		System.out.println("User details extracted from spring security  -- "+userName+" and user Role --"+userDetails.getAuthorities());
+		return ResponseEntity.ok(new JwtResponse(token, userName, userDetails.getAuthorities()));
 	}
 	private void authenticate(String username, String password) throws Exception {
 		try {
@@ -57,6 +60,7 @@ public class JwtAuthenticationController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+		System.out.println("user DTO recieved before transfering to data base"+user);
 		return ResponseEntity.ok(userService.save(user));
 	}
 

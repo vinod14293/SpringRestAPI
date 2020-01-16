@@ -1,20 +1,31 @@
 package com.vinod.app.model;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="Employee")
-public class Employee {
+public class Employee implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
 	@Column(name="EMPLOYEE_ID")
 	private long employeeId;
 	
@@ -27,28 +38,33 @@ public class Employee {
 	@Column(name="EMPLOYEE_ROLE")
 	private String employeeRole;
 	
+	
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", email=" + email
+				+ ", employeeRole=" + employeeRole + ", password=" + password + ", empActivity=" + "]";
+	}
+
+	
 	public Employee() {
+		super();
 	}
 	
-	public Employee(long enmployId, String employeeName, String email, String employeeRole) {
+	public Employee(long employeeId, String employeeName, String email, String employeeRole, String password,
+			List<EmployeActivity> empActivity) {
 		super();
-		this.employeeId = enmployId;
+		this.employeeId = employeeId;
 		this.employeeName = employeeName;
 		this.email = email;
 		this.employeeRole = employeeRole;
+		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [enmployId=" + employeeId + ", employeeName=" + employeeName + ", email=" + email
-				+ ", employeeRole=" + employeeRole + "]";
-	}
-
-	public long getEnmployId() {
+	public long getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEnmployId(long employeeId) {
+	public void setEmployeeId(long employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -76,7 +92,18 @@ public class Employee {
 		this.employeeRole = employeeRole;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	@Column(name = "PASSWORD")
+	private String password;
 	
-	
+
 	
 }

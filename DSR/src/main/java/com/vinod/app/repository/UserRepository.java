@@ -4,12 +4,12 @@ package com.vinod.app.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.vinod.app.model.User;
+import com.vinod.app.model.Employee;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends CrudRepository<Employee, String> {
 
-	public User findByUserName(String User);
+	public Employee findByEmail(String email);
 
 
 }
