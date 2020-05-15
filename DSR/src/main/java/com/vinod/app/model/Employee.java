@@ -38,6 +38,9 @@ public class Employee implements Serializable{
 	@Column(name="EMPLOYEE_ROLE")
 	private String employeeRole;
 	
+	@Column(name = "PASSWORD")
+	private String password;
+	
 	
 	@Override
 	public String toString() {
@@ -101,8 +104,7 @@ public class Employee implements Serializable{
 	}
 
 
-	@Column(name = "PASSWORD")
-	private String password;
+	
 	
 
 	

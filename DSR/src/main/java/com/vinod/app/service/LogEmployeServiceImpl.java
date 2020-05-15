@@ -1,12 +1,19 @@
 package com.vinod.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.vinod.app.model.EmployeActivity;
@@ -49,5 +56,31 @@ public class LogEmployeServiceImpl implements LogEmployeService {
 		Pageable pageable = PageRequest.of(PageNumber, PageSize, Sort.by("duration"));
 		return logActRepo.findAll(pageable);
 	}
+	
+	
+	@Override
+	public List<EmployeActivity> findByCriteria(String employeID, String email){
+		
+		return logActRepo.findAll(new Specification<EmployeActivity>() {
 
+			@Override
+			public Predicate toPredicate(Root<EmployeActivity> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+					
+				List<Predicate> predicates = new ArrayList<>();
+				//Employee e=new Employee();
+				
+				if(employeID != null && !employeID.equals("null")) {
+					predicates.add(criteriaBuilder.equal(root.join("employe").get("employeeId"), employeID));
+				}
+				
+				if(email != null && !email.equals("null")) {
+					predicates.add(criteriaBuilder.equal(root.join("employe").get("email"), email));
+				}
+				
+				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+				
+			}
+		});
+	}
 }

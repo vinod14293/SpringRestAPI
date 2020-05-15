@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import com.vinod.app.model.Employee;
+import com.vinod.app.model.ResponseDto;
 import com.vinod.app.model.User;
 import com.vinod.app.model.UserDTO;
 import com.vinod.app.repository.UserRepository;
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserDetailsService  {
 				authorities);
 	}
 
-	public Employee save(UserDTO user) {
+	public ResponseDto save(UserDTO user) {
 		Employee user1 = new Employee();
 		user1.setEmail(user.getEmail());
 		user1.setPassword(bcryptEncoder.encode(user.getPassword()));
@@ -62,7 +63,24 @@ public class UserServiceImpl implements UserDetailsService  {
 		
 		System.out.println("user object created before logging");
 		
-		return userRepositoy.save(user1);
+		Employee e1 = null;
+		ResponseDto rs = new ResponseDto();
+		
+		e1 = userRepositoy.findByEmailOrEmployeeId(user1.getEmail(), user1.getEmployeeId());
+		
+		
+		
+		if(e1 != null) {
+			rs.setName("FAILURE");
+			rs.setMessage("User already exists with provided Email ID or Employe ID");
+			return rs;
+		}
+				
+		userRepositoy.save(user1);
+		rs.setName("SUCCESS");
+		rs.setMessage("User Created successfully!");
+		return rs;
+
 	}
 
 }

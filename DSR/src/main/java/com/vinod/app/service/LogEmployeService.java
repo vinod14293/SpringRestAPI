@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.vinod.app.model.EmployeActivity;
+import com.vinod.app.model.Employee;
 
 public interface LogEmployeService {
 
@@ -17,4 +18,6 @@ public interface LogEmployeService {
 	Page<EmployeActivity> getActivityAll(int PageNumber, int PageSize);
 
 	Page<EmployeActivity> getActivityById2(long employeID, int PageNumber, int PageSize);
+	
+	List<EmployeActivity> findByCriteria(String employeID,String email);
 }

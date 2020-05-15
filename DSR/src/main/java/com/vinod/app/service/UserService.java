@@ -5,6 +5,6 @@ import com.vinod.app.model.User;
 
 public interface UserService {
 
-	public User findByUserName(String User);
+	public String findByUserName(String User);
 	
 }

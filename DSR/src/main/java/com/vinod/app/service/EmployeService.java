@@ -16,6 +16,10 @@ public interface EmployeService {
 	Optional<Employee> getEmployById(long id);
 
 	Employee getAllEmployeById(long id);
+	
+	List<Employee> findByCriteria(String email);
+	
+	List<Long> findDistinctEmployeeId();
 
 	//Employee updateEMployee(Employee empl);
 	
