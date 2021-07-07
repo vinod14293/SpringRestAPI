@@ -24,6 +24,7 @@ import com.vinod.app.service.EmployeService;
 import com.vinod.app.service.LogEmployeService;
 import com.vinod.app.util.JwtRequestFilter;
 
+//Adding comment for commit
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class EmployeController {
